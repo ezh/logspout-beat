@@ -1,0 +1,30 @@
+hash: b1891b5983d013c8a9ce96599b21af03e961421e5b84e34279f9f70084de4f6d
+updated: 2016-04-10T10:26:15.681548213-07:00
+imports:
+- name: github.com/elastic/beats
+  version: b4955db7f47a7e8cc194d156ef95f8ac5fcc653c
+- name: github.com/fsouza/go-dockerclient
+  version: bf97c77db7c945cbcdbf09d56c6f87a66f54537b
+  subpackages:
+  - external/github.com/docker/docker/opts
+  - external/github.com/docker/docker/pkg/archive
+  - external/github.com/docker/docker/pkg/fileutils
+  - external/github.com/docker/docker/pkg/homedir
+  - external/github.com/docker/docker/pkg/stdcopy
+  - external/github.com/docker/go-units
+  - external/github.com/hashicorp/go-cleanhttp
+  - external/github.com/Sirupsen/logrus
+  - external/github.com/docker/docker/pkg/idtools
+  - external/github.com/docker/docker/pkg/ioutils
+  - external/github.com/docker/docker/pkg/pools
+  - external/github.com/docker/docker/pkg/promise
+  - external/github.com/docker/docker/pkg/system
+  - external/github.com/docker/docker/pkg/longpath
+  - external/github.com/opencontainers/runc/libcontainer/user
+  - external/golang.org/x/sys/unix
+  - external/golang.org/x/net/context
+- name: github.com/gliderlabs/logspout
+  version: 95fdf26b9d3aaf5030f894ce6caf4f5abb6e660d
+  subpackages:
+  - router
+devImports: []

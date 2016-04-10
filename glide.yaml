@@ -1,0 +1,6 @@
+package: github.com/lhdomenech/logspout-beat
+import:
+- package: github.com/gliderlabs/logspout
+  subpackages:
+  - router
+- package: github.com/elastic/beats
