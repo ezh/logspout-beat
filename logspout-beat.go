@@ -7,6 +7,7 @@ import (
 	"github.com/elastic/beats/libbeat/common"
 	"github.com/gliderlabs/logspout/router"
 	"time"
+	"github.com/elastic/beats/libbeat/publisher"
 )
 
 func init() {
@@ -17,6 +18,7 @@ type LogspoutBeat struct {
 	open   chan bool
 	isOpen bool
 	beat   *beat.Beat
+	client publisher.Client
 }
 
 func NewLogspoutBeat(route *router.Route) (router.LogAdapter, error) {
@@ -36,6 +38,7 @@ func (logspotBeat *LogspoutBeat) Config(b *beat.Beat) error {
 
 func (logspotBeat *LogspoutBeat) Setup(b *beat.Beat) error {
 	logspotBeat.beat = b
+	logspotBeat.client = b.Publisher.Connect()
 	logspotBeat.open <- true
 	return nil
 }
@@ -89,7 +92,7 @@ func (logspoutBeat *LogspoutBeat) Stream(logstream chan *router.Message) {
 					fmt.Println("logspout-beat:", err)
 					return
 				}
-				logspoutBeat.beat.Events.PublishEvent(v)
+				logspoutBeat.client.PublishEvent(v)
 			}
 		}
 	}
