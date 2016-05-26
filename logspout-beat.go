@@ -81,6 +81,8 @@ func (logspoutBeat *LogspoutBeat) Stream(logstream chan *router.Message) {
 
 				v := common.MapStr{}
 
+				v["type"] = "dockerlog"
+
 				err := json.Unmarshal([]byte(msg.Data), &v)
 				if err != nil {
 					// The message was not JSON, create a new JSON message
