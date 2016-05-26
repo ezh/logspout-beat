@@ -90,14 +90,53 @@ func (logspoutBeat *LogspoutBeat) Stream(logstream chan *router.Message) {
 				}
 
 				v["docker"] = dockerInfo
-				if err := v.EnsureTimestampField(func() time.Time { return msg.Time }); err != nil {
-					fmt.Println("logspout-beat:", err)
-					return
-				}
+				EnsureTimestampField(v, msg.Time)
 				logspoutBeat.client.PublishEvent(v)
 			}
 		}
 	}
+}
+
+const TsLayout = "2006-01-02T15:04:05.000Z"
+
+func EnsureTimestampField(m common.MapStr, t time.Time) {
+	ts, exists := m["@timestamp"]
+	if !exists {
+		m["@timestamp"] = common.Time(t)
+		return
+	}
+
+	_, is_common_time := ts.(common.Time)
+	if is_common_time {
+		// already perfect
+		return
+	}
+
+	tstime, is_time := ts.(time.Time)
+	if is_time {
+		m["@timestamp"] = time.Time(tstime)
+		return
+	}
+
+	tsstr, is_string := ts.(string)
+	if is_string {
+		var err error
+		m["@timestamp"], err = common.ParseTime(tsstr)
+		if err == nil {
+			return
+		}
+
+		// Wrong format let's try RFC3339
+		timeValue, err := time.Parse(time.RFC3339, tsstr)
+		if err == nil {
+			m["@timestamp"] = common.Time(timeValue)
+			return
+		}
+	}
+
+	// No know format use docker timestamp
+	m["@timestamp"] = common.Time(t)
+	return
 }
 
 type DockerInfo struct {
