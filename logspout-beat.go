@@ -24,7 +24,7 @@ type LogspoutBeat struct {
 func NewLogspoutBeat(route *router.Route) (router.LogAdapter, error) {
 	logspoutBeat := &LogspoutBeat{open: make(chan bool, 1)}
 	go func() {
-		if err := beat.Run("logspout-beat", "1.0.0", logspoutBeat); err != nil {
+		if err := beat.Run("logspout-beat", "1.0.0", logspoutFactory(logspoutBeat)); err != nil {
 			fmt.Errorf("error starting beat", err)
 			return
 		}
@@ -32,23 +32,17 @@ func NewLogspoutBeat(route *router.Route) (router.LogAdapter, error) {
 	return logspoutBeat, nil
 }
 
-func (logspotBeat *LogspoutBeat) Config(b *beat.Beat) error {
-	return nil
-}
-
-func (logspotBeat *LogspoutBeat) Setup(b *beat.Beat) error {
-	logspotBeat.beat = b
-	logspotBeat.client = b.Publisher.Connect()
-	logspotBeat.open <- true
-	return nil
+func logspoutFactory(logspotBeat *LogspoutBeat) beat.Creator {
+	return func(beat *beat.Beat, config *common.Config) (beat.Beater, error) {
+		logspotBeat.beat = beat
+		logspotBeat.client = beat.Publisher.Connect()
+		logspotBeat.open <- true
+		return logspotBeat, nil
+	}
 }
 
 func (logspotBeat *LogspoutBeat) Run(b *beat.Beat) error {
 	select {}
-	return nil
-}
-
-func (logspotBeat *LogspoutBeat) Cleanup(b *beat.Beat) error {
 	return nil
 }
 

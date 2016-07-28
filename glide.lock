@@ -1,8 +1,31 @@
 hash: b1891b5983d013c8a9ce96599b21af03e961421e5b84e34279f9f70084de4f6d
-updated: 2016-04-28T21:54:59.570684102-07:00
+updated: 2016-07-28T09:44:43.062930016-07:00
 imports:
-- name: github.com/dustin/go-humanize
-  version: 8929fe90cee4b2cb9deb468b51fb34eba64d1bf0
+- name: github.com/davecgh/go-spew
+  version: 5215b55f46b2b919f50a1df0eaa5886afe4e3b3d
+  subpackages:
+  - spew
+- name: github.com/docker/docker
+  version: 8a8a63aa32a60e12b3c4d8e9e3397a8bd3b96d54
+  subpackages:
+  - opts
+  - pkg/archive
+  - pkg/fileutils
+  - pkg/homedir
+  - pkg/stdcopy
+  - pkg/idtools
+  - pkg/ioutils
+  - pkg/pools
+  - pkg/promise
+  - pkg/system
+  - pkg/longpath
+- name: github.com/docker/engine-api
+  version: 3d1601b9d2436a70b0dfc045a23f6503d19195df
+  subpackages:
+  - types/filters
+  - types/versions
+- name: github.com/docker/go-units
+  version: f2d77a61e3c169b43402a0a1e84f06daf29b8190
 - name: github.com/eapache/go-resiliency
   version: b86b1ec0dd4209a588dc1285cdd471e73525c0b3
   subpackages:
@@ -10,15 +33,16 @@ imports:
 - name: github.com/eapache/queue
   version: ded5959c0d4e360646dc9e9908cff48666781367
 - name: github.com/elastic/beats
-  version: 92e7b566b79a0c3107304419e8286724ef473530
+  version: da2e72c8fa314d3d8016b8e7db8a02eb21c0445b
   subpackages:
   - libbeat/beat
   - libbeat/common
+  - libbeat/publisher
   - libbeat/cfgfile
-  - libbeat/filter
   - libbeat/logp
   - libbeat/paths
-  - libbeat/publisher
+  - libbeat/processors
+  - libbeat/processors/actions
   - libbeat/service
   - libbeat/common/op
   - libbeat/outputs
@@ -30,61 +54,75 @@ imports:
   - libbeat/outputs/redis
   - libbeat/common/streambuf
   - libbeat/outputs/mode
+  - libbeat/outputs/mode/modeutil
   - libbeat/outputs/transport
-- name: github.com/fsouza/go-dockerclient
-  version: 1d4f4ae73768d3ca16a6fb964694f58dc5eba601
+  - libbeat/outputs/mode/lb
+  - libbeat/outputs/mode/single
+- name: github.com/elastic/go-lumber
+  version: 616041e345fc33c97bc0eb0fa6b388aa07bca3e1
   subpackages:
-  - external/github.com/docker/docker/opts
-  - external/github.com/docker/docker/pkg/archive
-  - external/github.com/docker/docker/pkg/fileutils
-  - external/github.com/docker/docker/pkg/homedir
-  - external/github.com/docker/docker/pkg/stdcopy
-  - external/github.com/docker/go-units
-  - external/github.com/hashicorp/go-cleanhttp
-  - external/github.com/Sirupsen/logrus
-  - external/github.com/docker/docker/pkg/idtools
-  - external/github.com/docker/docker/pkg/ioutils
-  - external/github.com/docker/docker/pkg/pools
-  - external/github.com/docker/docker/pkg/promise
-  - external/github.com/docker/docker/pkg/system
-  - external/github.com/docker/docker/pkg/longpath
-  - external/github.com/opencontainers/runc/libcontainer/user
-  - external/golang.org/x/sys/unix
-  - external/golang.org/x/net/context
+  - lj
+  - log
+  - client/v2
+  - server/internal
+  - server/v2
+  - protocol/v2
+- name: github.com/elastic/go-ucfg
+  version: 50f84b3d287645d33631d5fce4fa0f481e9f5323
+  subpackages:
+  - cfgutil
+  - flag
+  - yaml
+  - json
+- name: github.com/fsouza/go-dockerclient
+  version: 8190111d9e1251728a9c088742b14bad45b82516
 - name: github.com/garyburd/redigo
   version: 8873b2f1995f59d4bcdd2b0dc9858e2cb9bf0c13
   subpackages:
   - redis
   - internal
 - name: github.com/gliderlabs/logspout
-  version: 90302f046f740e3d77dda04f9a4387caed6f7f8d
+  version: 04243deb335af76a9a3d733099fe14026d9bcb5d
   subpackages:
   - router
 - name: github.com/golang/snappy
-  version: 894fd4616c897c201d223c3c0c128e8c648c96a2
+  version: d9eb7a3d35ec988b8585d4a0068e462c27d28380
+- name: github.com/hashicorp/go-cleanhttp
+  version: ad28ea4487f05916463e2423a55166280e8254b5
+- name: github.com/klauspost/compress
+  version: 006acde2c5d283d2f8b8aa03d8f0cd2891c680cf
+  subpackages:
+  - zlib
+  - flate
+- name: github.com/klauspost/cpuid
+  version: 09cded8978dc9e80714c4d85b0322337b0a1e5e0
 - name: github.com/klauspost/crc32
-  version: 6973dcf6594efa905c08260fe9120cae92ab4305
+  version: 19b0b332c9e4516a6370a0456e6182c3b5036720
 - name: github.com/nranchev/go-libGeoIP
   version: c78e8bd2dd3599feb21fd30886043979e82fe948
-- name: github.com/satori/go.uuid
-  version: f9ab0dce87d815821e221626b772e3475a0d2749
-- name: github.com/Shopify/sarama
-  version: 4ba9bba6adb6697bcec3841e1ecdfecf5227c3b9
-- name: github.com/urso/ucfg
-  version: f01837c170ab31f87afdfe0ec4c1af72c98793f4
+- name: github.com/opencontainers/runc
+  version: 522674998576b3aefdde233ffab20f763b83ac19
   subpackages:
-  - yaml
+  - libcontainer/user
+- name: github.com/satori/go.uuid
+  version: 879c5887cd475cd7864858769793b2ceb0d44feb
+- name: github.com/Shopify/sarama
+  version: 38d579a708d2f87dd4e35342241048e361d1e66a
+- name: github.com/Sirupsen/logrus
+  version: a283a10442df8dc09befd873fab202bf8a253d6a
 - name: golang.org/x/net
   version: d58ca6618b994150e624f6888d871f4709db51a0
   subpackages:
   - proxy
   - publicsuffix
+  - context
 - name: golang.org/x/sys
-  version: c8bc69bc2db9c57ccf979550bc69655df5039a8a
+  version: 62bee037599929a6e9146f29d10dd5208c43507d
   subpackages:
   - windows/svc
   - windows/svc/debug
   - windows
+  - unix
 - name: gopkg.in/yaml.v2
   version: a83829b6f1293c91addabc89d0571c246397bbf4
 devImports: []
